@@ -1,77 +1,47 @@
 import "./App.css";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
-import QuesState from "./context/ques/QuesState";
+import Login from "./components/Login";
+import Question from "./components/Question";
+import ShowResult from "./components/ShowResult";
+import { useAuth } from "./context/auth";
 
-import Alert from "./components/Alert";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import { useState } from "react";
-import Navbar from "./components/Navbar";
-
-import AddQuestions from "./components/AddQuestions";
-import AdminLogin from "./components/Admin-Login";
-
-import AdminResult from "./components/admin-result";
+import Error from "./components/Error";
+import { ToastContainer } from "react-toastify";
+import Admin from "./components/Admin";
+import Spinner from "./components/Spinner";
 
 function App() {
-  const [alert, setAlert] = useState(null);
+  const [auth, setauth] = useAuth();
+  const search = useLocation().search;
+  const id = new URLSearchParams(search).get("id");
+  const exam_type = new URLSearchParams(search).get("exam-type");
 
-  const showAlert = (message, type) => {
-    if (type == "danger") {
-      toast.error(message);
-    } else {
-      toast.success(message);
-    }
-  };
-  console.log(window.location.pathname);
   return (
     <>
-      <QuesState>
-        <BrowserRouter>
-          <Navbar />
+      <ToastContainer />
 
-          <ToastContainer></ToastContainer>
-          <div class="main">
-            <div className="container">
-              <Routes>
-                <Route
-                  exact
-                  path="/home"
-                  element={<Home showAlert={showAlert} />}
-                />
-                <Route
-                  exact
-                  path="/addquestions"
-                  element={<AddQuestions showAlert={showAlert} />}
-                />
-                <Route
-                  exact
-                  path="/login"
-                  element={<AdminLogin showAlert={showAlert} />}
-                />
-                <Route></Route>
-                <Route exact path="/view-result" element={<AdminResult />} />
-              </Routes>
-            </div>
-          </div>
-          {window.location.pathname === "/login" ? (
-            ""
-          ) : (
-            <footer class="text-center">
-              <div class="container">
-                Copyright © 2023.{" "}
-                <a href="https://www.transfunnel.com/" target="_blank">
-                  TransFunnel Consulting
-                </a>
-              </div>
-            </footer>
-          )}
-        </BrowserRouter>
-      </QuesState>
+      <Routes>
+        <Route
+          exact
+          path={auth.token || id ? "/" : "/n"}
+          element={<Login />}
+        ></Route>
+        <Route
+          exact
+          path={auth.token ? "/home" : "/n"}
+          element={<Home />}
+        ></Route>
+        {/* <Route path="/" element={<PrivateRoute />}> */}
+        {/* <Route path="/home" element={<Home />}></Route> */}
+        <Route path={`/question`} element={<Question />}></Route>
+        <Route path="/result" element={<ShowResult />}></Route>
+        <Route path="/admin" element={<Admin />}></Route>
+
+        <Route path="/*" element={<Error />} />
+        <Route path="/spinner" element={<Spinner />} />
+        {/* </Route> */}
+      </Routes>
     </>
   );
 }

@@ -1,0 +1,98 @@
+  <>
+      {id && exam_type ? (
+        Loading ? (
+          <Spinner />
+        ) : (
+          <div class="otp_wraper">
+            <div class="otp_form">
+              <div class="logo_otp text-center">
+                <a target="_blank" href="#">
+                  <img
+                    width="170"
+                    src="images/inbound-academy-logo.webp"
+                    alt="Logo"
+                  />
+                </a>
+              </div>
+              <div class="otp_content text-center">
+                <h3>Hii Inbound Student Please Start Test</h3>
+                {/* <h4>Name:{auth.user.name}</h4> */}
+                {/* <p>Enter the OTP (One Time Password) Sent to +91 {auth.user.phone}</p> */}
+                <button className="btn" type="submit">
+                  START EXAM
+                </button>
+                {/* <input type="submit" value="Verify OTP" /> */}
+              </div>
+            </div>
+          </div>
+        )
+      ) : (
+        <div class="otp_wraper">
+          <div class="otp_form">
+            <div class="logo_otp text-center">
+              <a target="_blank" href="#">
+                <img
+                  width="170"
+                  src="images/inbound-academy-logo.webp"
+                  alt="Logo"
+                />
+              </a>
+            </div>
+            <div class="otp_content text-center">
+              <h3>Verify Mobile</h3>
+              {/* <p>Enter the OTP (One Time Password) Sent to +91 {auth.user.phone}</p> */}
+              <p>
+                Please provide the OTP (One Time Password) that was sent for
+                verification to your registered mobile number.
+              </p>
+              <input
+                onChange={onChangeHandler}
+                value={Otp}
+                type="text"
+                placeholder="Enter OTP here"
+                required
+              />
+
+              {/* <input type="submit" value="Verify OTP" /> */}
+              <button className="btn" type="submit" onClick={getUserInfo}>
+                VERIFY OTP
+              </button>
+            </div>
+            <div class="otp_resend text-center">
+              <p>Check your Phone for the OTP</p>
+              <button onClick={resendOtp} className="btn">
+                Resend OTP
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+
+
+
+
+
+
+     {UserReport?.categoryResult &&
+                      Object.entries(UserReport.categoryResult).map(
+                        (key, value) => (
+                          <tr>
+                            {/* <td>{++index}</td> */}
+                            <td className="cat-blog">
+                              {value.name ?value.name : "-"}
+                            </td>
+                            <td className="txtAlnCtr">
+                              {item[1]?.attempted ? item[1]?.attempted : 0}
+                            </td>
+                            <td className="txtAlnCtr">
+                              {item[1]?.correctAnswer
+                                ? item[1]?.correctAnswer
+                                : 0}
+                            </td>
+                            <td className="txtAlnCtr">
+                              {item[1]?.score ? item[1]?.score : 0}
+                            </td>
+                          </tr>
+                        )
+                      )}
